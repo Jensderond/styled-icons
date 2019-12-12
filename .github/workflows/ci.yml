@@ -7,9 +7,6 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          ulimit -a
-          sudo ulimit -n 8192
       - uses: actions/checkout@master
 
       - name: Get yarn cache
@@ -25,6 +22,11 @@ jobs:
 
       - name: Install Dependencies
         run: yarn install
+
+      - name: Test Docker Command
+        run: |
+          docker build -t publish .
+          docker run --rm publish yarn lerna ls
 
       - name: Build
         run: yarn build
